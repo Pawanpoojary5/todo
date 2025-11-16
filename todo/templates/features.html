@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Features - TaskFlow | Master Your Tasks{% endblock title %}
+
+{% block head %}
+<style>
+    /* Features Page Specific Styles */
+    .features-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 6rem 2rem;
+        text-align: center;
+        margin-bottom: 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .features-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .features-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: fadeInUp 0.6s var(--ease);
+        position: relative;
+        z-index: 1;
+    }
+
+    .features-hero p {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.9);
+        animation: fadeInUp 0.8s var(--ease);
+        position: relative;
+        z-index: 1;
+    }
+
+    .features-list {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .features-list h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: white;
+        margin-bottom: 4rem;
+        animation: fadeInUp 0.6s var(--ease);
+    }
+
+    .feature-item {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+        transition: all var(--duration) var(--ease));
+        animation: fadeInUp 0.6s var(--ease));
+        border-left: 5px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5px;
+        background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform var(--duration) var(--ease));
+    }
+
+    .feature-item:hover::before {
+        transform: scaleY(1);
+    }
+
+    .feature-item:hover {
+        transform: translateX(8px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .feature-item h3 {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 0.75rem;
+    }
+
+    .feature-item p {
+        color: #4b5563;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 1rem;
+        animation: fadeInUp 0.6s var(--ease));
+    }
+
+    .empty-state p {
+        font-size: 1.1rem;
+        color: #6b7280;
+        margin-bottom: 2rem;
+    }
+
+    .add-feature-section {
+        text-align: center;
+        padding: 4rem 2rem;
+        margin-top: 2rem;
+    }
+
+    .add-feature-section p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .features-hero h1 {
+            font-size: 2rem;
+        }
+
+        .features-hero p {
+            font-size: 1rem;
+        }
+
+        .features-list h2 {
+            font-size: 1.75rem;
+        }
+
+        .feature-item {
+            padding: 1.5rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="features-hero">
+    <h1>Our Features</h1>
+    <p>Discover what makes TaskFlow the perfect productivity companion</p>
+</section>
+
+<!-- Features List -->
+<section class="features-list">
+    {% if features %}
+        <h2>All Features</h2>
+        {% for f in features %}
+            <div class="feature-item">
+                <h3>{{ f.title }}</h3>
+                <p>{{ f.description }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p>✨ No features added yet.</p>
+            <p style="color: #999; font-size: 0.95rem;">Check back soon for exciting new features!</p>
+        </div>
+    {% endif %}
+</section>
+
+<!-- Add Feature CTA -->
+<section class="add-feature-section">
+    <p>Have a feature idea? We'd love to hear from you!</p>
+    <a href="/features/create/" class="btn btn-primary">Suggest a Feature</a>
+</section>
+
+{% endblock body %}

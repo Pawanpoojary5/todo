@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About - Pawan Poojary | TaskFlow{% endblock title %}
+
+{% block head %}
+<style>
+    /* ============================================
+       ABOUT PAGE SPECIFIC STYLES
+       ============================================ */
+
+    .profile-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 6rem 2rem;
+        text-align: center;
+        margin-bottom: 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 4rem;
+        align-items: center;
+        margin-bottom: 6rem;
+        padding: 0 2rem;
+    }
+
+    .profile-image-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        animation: fadeInLeft 0.8s var(--ease);
+    }
+
+    .profile-image {
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        transition: all var(--duration) var(--ease);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-image:hover {
+        transform: scale(1.05) rotateY(5deg);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.4);
+    }
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--duration) var(--ease);
+    }
+
+    .profile-image:hover img {
+        transform: scale(1.1);
+    }
+
+    .profile-info {
+        animation: fadeInRight 0.8s var(--ease);
+    }
+
+    .profile-info h2 {
+        font-size: 2.5rem;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-designation {
+        font-size: 1.25rem;
+        color: #6366f1;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-bio {
+        color: #4b5563;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: all var(--duration) var(--ease);
+        box-shadow: var(--shadow-md);
+    }
+
+    .social-link:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Content Sections */
+    .about-section {
+        max-width: 1200px;
+        margin: 0 auto 6rem;
+        padding: 0 2rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        color: #1f2937;
+        margin-bottom: 2rem;
+        text-align: center;
+        position: relative;
+        animation: fadeInUp 0.6s var(--ease);
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        margin: 1rem auto 0;
+        border-radius: 2px;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .content-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-md);
+        transition: all var(--duration) var(--ease));
+        animation: fadeInUp 0.6s var(--ease);
+        border-top: 4px solid transparent;
+    }
+
+    .content-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+        border-top: 4px solid var(--primary);
+    }
+
+    .content-card h3 {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .content-card p {
+        color: #4b5563;
+        line-height: 1.8;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .skill-badge {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+        border: 2px solid rgba(99, 102, 241, 0.3);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        text-align: center;
+        transition: all var(--duration) var(--ease));
+        animation: scaleIn 0.6s var(--ease));
+    }
+
+    .skill-badge:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+        border-color: var(--primary);
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+    }
+
+    .skill-badge h4 {
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .skill-badge p {
+        color: #6b7280;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    /* Contact Section */
+    .contact-section {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        padding: 4rem 2rem;
+        border-radius: 1rem;
+        margin: 6rem 2rem 0;
+        text-align: center;
+        animation: fadeInUp 0.8s var(--ease));
+    }
+
+    .contact-section h2 {
+        font-size: 2rem;
+        color: white;
+        margin: 0 0 1rem 0;
+    }
+
+    .contact-section p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .contact-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .contact-link {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: all var(--duration) var(--ease));
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .contact-link:hover {
+        background: white;
+        color: #6366f1;
+        border-color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .profile-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+        }
+
+        .profile-info h2 {
+            font-size: 1.75rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .skills-grid {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .contact-section {
+            margin: 4rem 1rem 0;
+        }
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+
+<!-- Profile Hero Section -->
+<section class="profile-hero">
+    <div style="max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; animation: fadeInUp 0.6s var(--ease); color: white;">About Me</h1>
+        <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.9); animation: fadeInUp 0.8s var(--ease);">
+            Full Stack Developer & Creative Problem Solver
+        </p>
+    </div>
+</section>
+
+<!-- Profile Container -->
+<div class="profile-container">
+    <div class="profile-image-wrapper">
+        <div class="profile-image">
+            <img src="{% static 'images/pawan.jpg' %}" alt="Pawan Poojary" loading="lazy"
+                 onerror="this.src='{% static 'images/placeholder-profile.svg' %}';">
+        </div>
+    </div>
+
+    <div class="profile-info">
+        <h2>Pawan Poojary</h2>
+        <div class="profile-designation">Full Stack Developer</div>
+        <p class="profile-bio">
+            I'm a passionate Full Stack Developer with a keen eye for creating beautiful, functional, and user-friendly web applications. I specialize in building modern web solutions that combine elegant design with robust functionality. With expertise in both front-end and back-end development, I bring ideas to life through clean code and innovative solutions.
+        </p>
+
+        <div class="social-links">
+            <a href="https://github.com/Pawanpoojary5" class="social-link" title="GitHub" target="_blank">💻</a>
+            <a href="https://linkedin.com/in/Pawanpoojary" class="social-link" title="LinkedIn" target="_blank">🔗</a>
+            <a href="https://instagram.com/pawan.__.poojary" class="social-link" title="Instagram" target="_blank">📷</a>
+            <a href="mailto:pawanpoojari026@gmail.com" class="social-link" title="Email">✉️</a>
+        </div>
+    </div>
+</div>
+
+<!-- Journey Section -->
+<section class="about-section">
+    <h2 class="section-title">My Journey</h2>
+    <div class="content-grid">
+        <div class="content-card">
+            <h3>👋 Introduction</h3>
+            <p>Hello! I'm Pawan Poojary, a passionate Full Stack Developer with a keen eye for creating beautiful, functional, and user-friendly web applications. I specialize in building modern web solutions that combine elegant design with robust functionality.</p>
+        </div>
+
+        <div class="content-card">
+            <h3>💼 Professional Journey</h3>
+            <p>With expertise in both front-end and back-end development, I bring ideas to life through clean code and innovative solutions. My journey in web development has equipped me with a comprehensive understanding of the full development lifecycle, from concept to deployment.</p>
+        </div>
+
+        <div class="content-card">
+            <h3>🎯 What I Do</h3>
+            <p>I create responsive, scalable web applications with a focus on user experience and performance. Whether it's developing interactive UIs, building RESTful APIs, or architecting database solutions, I approach each project with dedication and attention to detail.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="about-section">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+        <div class="skill-badge">
+            <h4>🎨 Frontend</h4>
+            <p>HTML5, CSS3, JavaScript, React</p>
+        </div>
+        <div class="skill-badge">
+            <h4>⚙️ Backend</h4>
+            <p>Python, Django, Java, Node.js</p>
+        </div>
+        <div class="skill-badge">
+            <h4>💾 Database</h4>
+            <p>MySQL, PostgreSQL, MongoDB</p>
+        </div>
+        <div class="skill-badge">
+            <h4>🛠️ Tools</h4>
+            <p>Git, Docker, AWS, Linux</p>
+        </div>
+        <div class="skill-badge">
+            <h4>🎯 Soft Skills</h4>
+            <p>Problem Solving, Leadership</p>
+        </div>
+        <div class="skill-badge">
+            <h4>📚 Other</h4>
+            <p>REST APIs, Agile, Testing</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <h2>Let's Connect</h2>
+    <p>Interested in collaborating or have any questions? Feel free to reach out!</p>
+    <div class="contact-links">
+        <a href="mailto:pawanpoojari026@gmail.com" class="contact-link">📧 Email Me</a>
+        <a href="https://github.com/Pawanpoojary5" target="_blank" class="contact-link">💻 GitHub</a>
+        <a href="https://linkedin.com/in/Pawanpoojary" target="_blank" class="contact-link">🔗 LinkedIn</a>
+    </div>
+</section>
+
+{% endblock body %}
